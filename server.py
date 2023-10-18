@@ -1,7 +1,7 @@
 import json
 from flask import Flask, render_template, request, redirect, flash, url_for
 #import pdb
-import logging
+#import logging
 
 # pdb.set_trace()
 # à utiliser en lieu et place de import pdb et pdb.set_trace() :
@@ -67,14 +67,14 @@ def purchasePlaces():
     placesRequired = int(request.form['places'])
     places_after_booking = int(competition['numberOfPlaces'])-placesRequired
     points_after_booking = int(club["points"])-placesRequired
-    # ajout d'un if/else et ligne pour maj points
-    if places_after_booking >= 0 and points_after_booking >= 0:
+    # ajout d'un if/else et maj des points
+    if places_after_booking >= 0:
         competition['numberOfPlaces'] = places_after_booking
         club["points"] = points_after_booking
         flash('Great-booking complete!')
         return render_template('welcome.html', club=club, competitions=competitions)
-    else:
-        flash('The number of points or places available is insufficient!')
+    else: 
+        flash('The number of places available is insufficient!')
         return render_template('welcome.html', club=club, competitions=competitions)
 
 
@@ -88,5 +88,5 @@ def logout():
 
 
 if __name__ == "__main__":
-    # debug=true pour obtenir plus d'informations en cas d'erreur
+    # debug=true permet d'obtenir plus d'informations en cas d'erreur
     app.run(debug=True)
