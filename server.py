@@ -1,5 +1,17 @@
 import json
-from flask import Flask,render_template,request,redirect,flash,url_for
+from flask import Flask, render_template, request, redirect, flash, url_for
+#import pdb
+import logging
+
+# pdb.set_trace()
+# à utiliser en lieu et place de import pdb et pdb.set_trace() :
+# breakpoint()
+
+# logging.basicConfig(level=logging.DEBUG)
+# logging.basicConfig(filename='events.log', encoding='utf-8', level=logging.DEBUG)
+# pour que chaque exécution reprenne un fichier vierge :
+# logging.basicConfig(filename='example.log', filemode='w', level=logging.DEBUG)
+# logging.debug("Informations détaillées sur le déroulement du programme")
 
 
 def loadClubs():
@@ -31,26 +43,33 @@ def showSummary():
 
 
 @app.route('/book/<competition>/<club>')
-def book(competition,club):
+def book(competition, club):
     foundClub = [c for c in clubs if c['name'] == club][0]
     foundCompetition = [c for c in competitions if c['name'] == competition][0]
     if foundClub and foundCompetition:
-        return render_template('booking.html',club=foundClub,competition=foundCompetition)
+        return render_template('booking.html',club=foundClub, competition=foundCompetition)
     else:
         flash("Something went wrong-please try again")
         return render_template('welcome.html', club=club, competitions=competitions)
 
 
-@app.route('/purchasePlaces',methods=['POST'])
+@app.route('/purchasePlaces', methods=['POST'])
 def purchasePlaces():
     competition = [c for c in competitions if c['name'] == request.form['competition']][0]
     club = [c for c in clubs if c['name'] == request.form['club']][0]
     placesRequired = int(request.form['places'])
-    competition['numberOfPlaces'] = int(competition['numberOfPlaces'])-placesRequired
-    # ajout de la ligne de maj du nb de points du club
-    club["points"] = int(club["points"])-placesRequired
-    flash('Great-booking complete!')
-    return render_template('welcome.html', club=club, competitions=competitions)
+    places_after_booking = int(competition['numberOfPlaces'])-placesRequired
+    points_after_booking = int(club["points"])-placesRequired
+    # ajout d'un if/else et ligne pour maj points
+    if places_after_booking >= 0 and points_after_booking >= 0:
+        competition['numberOfPlaces'] = places_after_booking
+        club["points"] = points_after_booking
+        flash('Great-booking complete!')
+        return render_template('welcome.html', club=club, competitions=competitions)
+    else:
+        flash('The number of points or places available is insufficient!')
+        return render_template('welcome.html', club=club, competitions=competitions)
+
 
 
 # TODO: Add route for points display
@@ -59,3 +78,8 @@ def purchasePlaces():
 @app.route('/logout')
 def logout():
     return redirect(url_for('index'))
+
+
+if __name__ == "__main__":
+    # debug=true pour obtenir plus d'informations en cas d'erreur
+    app.run(debug=True)
