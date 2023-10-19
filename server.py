@@ -43,7 +43,8 @@ clubs = loadClubs()
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    """Affiche la page d'accueil avec le tableau d'affichage des points"""
+    return render_template('index.html', clubs=clubs)
 
 @app.route('/showSummary', methods=['POST'])
 def showSummary():
