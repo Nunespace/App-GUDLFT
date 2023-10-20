@@ -86,7 +86,7 @@ def purchasePlaces():
     places_after_booking = int(competition['numberOfPlaces'])-placesRequired
     points_after_booking = int(club["points"])-placesRequired
     # ajout d'un if/else et maj des points
-    if places_after_booking >= 0 and competition[club_name] < 12:
+    if places_after_booking >= 0 and competition[club_name] < 12 and placesRequired <= 12:
         competition['numberOfPlaces'] = places_after_booking
         club["points"] = points_after_booking
         competition[club_name] += placesRequired
