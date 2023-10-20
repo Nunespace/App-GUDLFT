@@ -59,7 +59,6 @@ def showSummary():
         # ajout dans le doctionnaire competition de la clé club_name correspondant au nb de places déjà réservées
         for competition in competitions:
             competition.setdefault('past', is_past_competition(competition['date']))
-            print(competition['past'])
         return render_template('welcome.html', club=club, competitions=competitions)
 
 
