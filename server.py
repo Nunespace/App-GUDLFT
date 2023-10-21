@@ -59,6 +59,7 @@ def showSummary():
         # ajout dans le doctionnaire competition de la clé club_name correspondant au nb de places déjà réservées
         for competition in competitions:
             competition.setdefault('past', is_past_competition(competition['date']))
+        print("args ds l'url, méthode http, route demandée:", request.args.get(all), request.method, request.path)
         return render_template('welcome.html', club=club, competitions=competitions)
 
 
@@ -78,23 +79,29 @@ def purchasePlaces():
     competition = [c for c in competitions if c['name'] == request.form['competition']][0]
     club = [c for c in clubs if c['name'] == request.form['club']][0]
     club_name = club['name']
+    competition['numberOfPlaces'] = int(competition['numberOfPlaces'])
+    club["points"] = int(club["points"])
     # ajout dans le doctionnaire competition de la clé club_name correspondant au nb de places déjà réservées
     competition.setdefault(club_name, 0)
     print("places réservées avant:", competition[club_name])
     placesRequired = int(request.form['places'])
-    places_after_booking = int(competition['numberOfPlaces'])-placesRequired
-    points_after_booking = int(club["points"])-placesRequired
     # ajout d'un if/else et maj des points
-    if places_after_booking >= 0 and competition[club_name] < 12 and placesRequired <= 12:
-        competition['numberOfPlaces'] = places_after_booking
-        club["points"] = points_after_booking
+    if placesRequired > int(club["points"]):
+        flash(f'You cannot book more than your points available ({club["points"]} points).')
+        print("args ds l'url, méthode http, route demandée:", request.args, request.method, request.path)
+        return render_template('booking.html', club=club, competition=competition)
+    elif competition[club_name] < 12 and placesRequired <= 12:
+        competition['numberOfPlaces'] -= placesRequired
+        club["points"] -= placesRequired
         competition[club_name] += placesRequired
         print("places réservées après :", competition[club_name])
         flash('Great-booking complete!')
+        print("args ds l'url, méthode http, route demandée:", request.args, request.method, request.path)
         return render_template('welcome.html', club=club, competitions=competitions)
     else: 
         flash('You cannot book more than 12 places.')
         return render_template('booking.html', club=club, competition=competition)
+
 
 
 
