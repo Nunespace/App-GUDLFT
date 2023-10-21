@@ -86,11 +86,14 @@ def purchasePlaces():
     print("places réservées avant:", competition[club_name])
     placesRequired = int(request.form['places'])
     # ajout d'un if/else et maj des points
-    if placesRequired > int(club["points"]):
+    if placesRequired > 12 or competition[club_name] == 12:
+        flash('You cannot book more than 12 places per competition.')
+        return render_template('booking.html', club=club, competition=competition)
+    elif placesRequired > int(club["points"]):
         flash(f'You cannot book more than your points available ({club["points"]} points).')
         print("args ds l'url, méthode http, route demandée:", request.args, request.method, request.path)
         return render_template('booking.html', club=club, competition=competition)
-    elif competition[club_name] < 12 and placesRequired <= 12:
+    else:
         competition['numberOfPlaces'] -= placesRequired
         club["points"] -= placesRequired
         competition[club_name] += placesRequired
@@ -98,9 +101,7 @@ def purchasePlaces():
         flash('Great-booking complete!')
         print("args ds l'url, méthode http, route demandée:", request.args, request.method, request.path)
         return render_template('welcome.html', club=club, competitions=competitions)
-    else: 
-        flash('You cannot book more than 12 places.')
-        return render_template('booking.html', club=club, competition=competition)
+        
 
 
 
