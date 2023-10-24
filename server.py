@@ -39,6 +39,8 @@ app = Flask(__name__)
 app.secret_key = 'something_special'
 
 competitions = loadCompetitions()
+for competition in competitions:
+    competition['purchased_places'] = []
 clubs = loadClubs()
 
 @app.route('/')
@@ -81,7 +83,7 @@ def purchasePlaces():
     club_name = club['name']
     competition['numberOfPlaces'] = int(competition['numberOfPlaces'])
     club["points"] = int(club["points"])
-    # ajout dans le doctionnaire competition de la clé club_name correspondant au nb de places déjà réservées
+    # ajout dans le dictionnaire competition de la clé club_name correspondant au nb de places déjà réservées
     competition.setdefault(club_name, 0)
     print("places réservées avant:", competition[club_name])
     placesRequired = int(request.form['places'])
@@ -101,13 +103,7 @@ def purchasePlaces():
         flash('Great-booking complete!')
         print("args ds l'url, méthode http, route demandée:", request.args, request.method, request.path)
         return render_template('welcome.html', club=club, competitions=competitions)
-        
 
-
-
-
-
-# TODO: Add route for points display
 
 
 @app.route('/logout')
