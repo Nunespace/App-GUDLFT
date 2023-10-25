@@ -1,7 +1,9 @@
 import json
+from datetime import datetime
 from flask import Flask, render_template, request, redirect, flash, url_for
-#import pdb
-#import logging
+
+# import pdb
+# import logging
 
 # pdb.set_trace()
 # à utiliser en lieu et place de import pdb et pdb.set_trace() :
@@ -16,14 +18,21 @@ from flask import Flask, render_template, request, redirect, flash, url_for
 
 def loadClubs():
     with open('clubs.json') as c:
-         listOfClubs = json.load(c)['clubs']
-         return listOfClubs
+        listOfClubs = json.load(c)['clubs']
+        return listOfClubs
 
 
 def loadCompetitions():
     with open('competitions.json') as comps:
-         listOfCompetitions = json.load(comps)['competitions']
-         return listOfCompetitions
+        listOfCompetitions = json.load(comps)['competitions']
+        return listOfCompetitions
+
+
+def is_past_competition(date_str):
+    """Vérife si la compétition est passée"""
+    format = '%Y-%m-%d %H:%M:%S'
+    date = datetime.strptime(date_str, format)
+    return date > datetime.now()
 
 
 app = Flask(__name__)
@@ -46,6 +55,10 @@ def showSummary():
         return render_template('index.html', error=error)
     else:
         club = [club for club in clubs if club['email'] == request.form['email']][0]
+        # ajout dans le doctionnaire competition de la clé club_name correspondant au nb de places déjà réservées
+        for competition in competitions:
+            competition.setdefault('past', is_past_competition(competition['date']))
+            print(competition['past'])
         return render_template('welcome.html', club=club, competitions=competitions)
 
 
@@ -76,8 +89,14 @@ def purchasePlaces():
         flash('Great-booking complete!')
         return render_template('welcome.html', club=club, competitions=competitions)
     else: 
+<<<<<<< HEAD
         flash('The number of places available is insufficient!')
         return render_template('welcome.html', club=club, competitions=competitions)
+=======
+        flash('You cannot book more than 12 places.')
+        return render_template('booking.html', club=club, competition=competition)
+
+>>>>>>> bug/5_past_competitions
 
 
 
