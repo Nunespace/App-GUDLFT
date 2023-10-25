@@ -46,6 +46,7 @@ clubs = loadClubs()
 @app.route('/')
 def index():
     """Affiche la page d'accueil avec le tableau d'affichage des points"""
+    #print("clubs ds server.py :", clubs)
     return render_template('index.html', clubs=clubs)
 
 @app.route('/showSummary', methods=['POST'])
@@ -61,7 +62,6 @@ def showSummary():
         # ajout dans le doctionnaire competition de la clé club_name correspondant au nb de places déjà réservées
         for competition in competitions:
             competition.setdefault('past', is_past_competition(competition['date']))
-        print("args ds l'url, méthode http, route demandée:", request.args.get(all), request.method, request.path)
         return render_template('welcome.html', club=club, competitions=competitions)
 
 
@@ -93,17 +93,17 @@ def purchasePlaces():
         return render_template('booking.html', club=club, competition=competition)
     elif placesRequired > int(club["points"]):
         flash(f'You cannot book more than your points available ({club["points"]} points).')
-        print("args ds l'url, méthode http, route demandée:", request.args, request.method, request.path)
         return render_template('booking.html', club=club, competition=competition)
     else:
         competition['numberOfPlaces'] -= placesRequired
+        print("clubs ds server.py :", clubs)
         club["points"] -= placesRequired
         competition[club_name] += placesRequired
         print("places réservées après :", competition[club_name])
+        print("clubs ds server.py2 :", clubs)
         flash('Great-booking complete!')
-        print("args ds l'url, méthode http, route demandée:", request.args, request.method, request.path)
+        #print("args ds l'url, méthode http, route demandée:", request.args, request.method, request.path)
         return render_template('welcome.html', club=club, competitions=competitions)
-
 
 
 @app.route('/logout')
