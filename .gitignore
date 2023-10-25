@@ -4,7 +4,7 @@ lib
 .Python
 tests/
 .envrc
-.vscode
+.vscode/
 __pycache__
 tests/
 .coverage
