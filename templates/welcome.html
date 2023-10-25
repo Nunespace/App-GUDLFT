@@ -24,11 +24,11 @@
             Date: {{comp['date']}}</br>
             Number of Places: {{comp['numberOfPlaces']}}
             {%if comp['numberOfPlaces']|int >0 and comp['past']%}
-                <!-- insertion d'une condition pour vérifier si les points sont suffisants-->
+                <!-- insertion d'une condition pour vérifier s'il reste des points-->
                 {%if club['points']|int > 0 %}
             <a href="{{ url_for('book',competition=comp['name'],club=club['name']) }}">Book Places</a>
                 {% else %}
-                <p>You don’t have enough points for book.</p>
+                <p>You don’t have points for book.</p>
                 {%endif%}
             {%endif%}
         </li>

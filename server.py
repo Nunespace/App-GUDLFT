@@ -39,11 +39,14 @@ app = Flask(__name__)
 app.secret_key = 'something_special'
 
 competitions = loadCompetitions()
+for competition in competitions:
+    competition['purchased_places'] = []
 clubs = loadClubs()
 
 @app.route('/')
 def index():
     """Affiche la page d'accueil avec le tableau d'affichage des points"""
+    #print("clubs ds server.py :", clubs)
     return render_template('index.html', clubs=clubs)
 
 @app.route('/showSummary', methods=['POST'])
@@ -59,7 +62,6 @@ def showSummary():
         # ajout dans le doctionnaire competition de la clé club_name correspondant au nb de places déjà réservées
         for competition in competitions:
             competition.setdefault('past', is_past_competition(competition['date']))
-            print(competition['past'])
         return render_template('welcome.html', club=club, competitions=competitions)
 
 
@@ -79,29 +81,29 @@ def purchasePlaces():
     competition = [c for c in competitions if c['name'] == request.form['competition']][0]
     club = [c for c in clubs if c['name'] == request.form['club']][0]
     club_name = club['name']
-    # ajout dans le doctionnaire competition de la clé club_name correspondant au nb de places déjà réservées
+    competition['numberOfPlaces'] = int(competition['numberOfPlaces'])
+    club["points"] = int(club["points"])
+    # ajout dans le dictionnaire competition de la clé club_name correspondant au nb de places déjà réservées
     competition.setdefault(club_name, 0)
     print("places réservées avant:", competition[club_name])
     placesRequired = int(request.form['places'])
     # ajout d'un if/else et maj des points
-    if places_after_booking >= 0 and competition[club_name] < 12 and placesRequired <= 12:
-        competition['numberOfPlaces'] = places_after_booking
-        club["points"] = points_after_booking
-        flash('Great-booking complete!')
-        return render_template('welcome.html', club=club, competitions=competitions)
-    else: 
-<<<<<<< HEAD
-        flash('The number of places available is insufficient!')
-        return render_template('welcome.html', club=club, competitions=competitions)
-=======
-        flash('You cannot book more than 12 places.')
+    if placesRequired > 12 or competition[club_name] == 12:
+        flash('You cannot book more than 12 places per competition.')
         return render_template('booking.html', club=club, competition=competition)
-
->>>>>>> bug/5_past_competitions
-
-
-
-# TODO: Add route for points display
+    elif placesRequired > int(club["points"]):
+        flash(f'You cannot book more than your points available ({club["points"]} points).')
+        return render_template('booking.html', club=club, competition=competition)
+    else:
+        competition['numberOfPlaces'] -= placesRequired
+        print("clubs ds server.py :", clubs)
+        club["points"] -= placesRequired
+        competition[club_name] += placesRequired
+        print("places réservées après :", competition[club_name])
+        print("clubs ds server.py2 :", clubs)
+        flash('Great-booking complete!')
+        #print("args ds l'url, méthode http, route demandée:", request.args, request.method, request.path)
+        return render_template('welcome.html', club=club, competitions=competitions)
 
 
 @app.route('/logout')
