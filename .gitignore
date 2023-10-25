@@ -6,3 +6,8 @@ tests/
 .envrc
 .vscode
 __pycache__
+test/
+.coverage
+.coveragerc
+htmlcov
+.pytest_cache
