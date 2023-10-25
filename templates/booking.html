@@ -23,5 +23,7 @@
         <label for="places">How many places?</label><input type="number" min=1 max="{{competition['numberOfPlaces']}}" name="places" id=""/>
         <button type="submit">Book</button>
     </form>
+    {%endwith%}
+    <button onclick="history.go(-2);">Go back</button>
 </body>
 </html>

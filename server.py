@@ -43,6 +43,7 @@ clubs = loadClubs()
 
 @app.route('/')
 def index():
+    """Affiche la page d'accueil avec le tableau d'affichage des points"""
     return render_template('index.html', clubs=clubs)
 
 @app.route('/showSummary', methods=['POST'])
@@ -52,7 +53,7 @@ def showSummary():
     # ajout de la vérification de l'email
     if request.form['email'] not in list_valid_email:
         error = "This email is not valid."
-        return render_template('index.html', error=error)
+        return render_template('index.html', error=error, clubs=clubs)
     else:
         club = [club for club in clubs if club['email'] == request.form['email']][0]
         # ajout dans le doctionnaire competition de la clé club_name correspondant au nb de places déjà réservées
@@ -83,7 +84,7 @@ def purchasePlaces():
     print("places réservées avant:", competition[club_name])
     placesRequired = int(request.form['places'])
     # ajout d'un if/else et maj des points
-    if places_after_booking >= 0:
+    if places_after_booking >= 0 and competition[club_name] < 12 and placesRequired <= 12:
         competition['numberOfPlaces'] = places_after_booking
         club["points"] = points_after_booking
         flash('Great-booking complete!')

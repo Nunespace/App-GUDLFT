@@ -6,6 +6,35 @@
 </head>
 <body>
     <h1>Welcome to the GUDLFT Registration Portal!</h1>
+    <style>
+    table {
+        border-collapse: collapse;
+        font-weight:bold;
+    }
+    caption{
+        padding: 10px;
+    }
+    td, th{
+        border: 1px solid black;
+        padding: 15px;
+        text-align: center;
+    }
+    </style>
+    <!-- insertion du tableau d'affichage des points-->
+    <table>
+        <caption>Points display board</caption>
+        <tr>
+            <th>Club</th>
+            <th>Points available</th>
+        </tr>
+        {% for club in clubs %}
+        <tr>
+            <td>{{club['name']}}</td>
+            <td>{{club['points']}}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    <br>
         <!-- insertion d'un message en cas de mail invalide-->
         {% if error %}
         <p class=error><strong>Error:</strong> {{ error }}
