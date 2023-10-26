@@ -56,21 +56,36 @@ Pour les lancements ultérieurs du serveur, il suffit d'exécuter les étape 4 e
 Les tests de ce projet ont été réalisés avec le framework pytest et son plugin pytest-flask.
 
 ### Lancement des tests
-Les tests sont executables avec la commande ```pipenv run pytest```
+Les tests sont executables avec la commande : 
+```
+pipenv run pytest
+```
 
-Il est possible de lancer qu'un seul test. Par exemple : ```pipenv run pytest tests/unit/test_app.py::TestBookPlaces::test_get_book_page```
+Il est possible de lancer qu'un seul test. Par exemple : 
+```
+pipenv run pytest tests/unit/test_app.py::TestBookPlaces::test_get_book_page
+```
 
 ### Rapport HTML
 
-Un rapport html des tests peut être obtenu avec la commande : ```pipenv run pytest --html=report.html --self-contained-html```
+Un rapport html des tests peut être obtenu avec la commande : 
+```
+pipenv run pytest --html=report.html --self-contained-html
+```
 
 Il sera ensuite disponible à cette adresse : http://127.0.0.1:5500/report.html
 
 
 ### Couverture de test
 
-Ce projet contient la librairie Python Coverage.py qui fournit un rapport qui nous donne le pourcentage de couverture de ligne par fichier source de couverture. Ce rapport peut être obtenu avec cette commande : ```pipenv run pytest --cov=.```
-Un rapport HTML, plus détaillé, peut aussi être généré en tapant : ```pipenv run pytest --cov=. --cov-report html```
+Ce projet contient la librairie Python Coverage.py qui fournit un rapport qui nous donne le pourcentage de couverture de ligne par fichier source de couverture. Ce rapport peut être obtenu avec cette commande : 
+```
+pipenv run pytest --cov=.
+```
+Un rapport HTML, plus détaillé, peut aussi être généré en tapant : 
+```
+pipenv run pytest --cov=. --cov-report html
+```
 Ce dernier est ainsi consultable à cette adresse http://127.0.0.1:5500/htmlcov/index.html
 
 
@@ -80,9 +95,15 @@ Le framework Locust a été utilisé pour réaliser les tests de performance de 
 
 Pour exécuter ces tests :
 
-1. Ouvrir un terminal pointant sur le répertoire contenant le fichierlocustfile.py en tapant, à partir de la racine du projet : ```cd tests\performance_tests```
+1. Ouvrir un terminal pointant sur le répertoire contenant le fichierlocustfile.py en tapant, à partir de la racine du projet : 
+```
+cd tests\performance_tests
+```
 
-2. Taper ```pipenv run locust```
+2. Taper :
+```
+pipenv run locust
+```
 
 3. Ouvrez votre navigateur et taper l'adresse : [http://localhost:8089/](http://localhost:8089/)
 
