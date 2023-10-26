@@ -3,7 +3,6 @@ from server import is_past_competition
 
 
 class TestHomePage:
-
     def test_get_home_page(self, mocker, client, clubs_fixture):
         mocker.patch.object(server, "clubs", clubs_fixture)
         response = client.get("/")
@@ -31,7 +30,6 @@ class TestHomePage:
 
 
 class TestSummary:
-
     def test_get_summary_with_buttun_book(
         self, mocker, client, clubs_fixture, competitions_fixture
     ):
@@ -67,9 +65,8 @@ class TestSummary:
 
 
 class TestBookPlaces:
-
     def test_get_book_page(self, mocker, client, competitions_fixture, clubs_fixture):
-        """ Quand l'utilisateur clique sur le boton book, alors la page de réservations doit s'ouvrir"""
+        """Quand l'utilisateur clique sur le boton book, alors la page de réservations doit s'ouvrir"""
         mocker.patch.object(server, "competitions", competitions_fixture)
         mocker.patch.object(server, "clubs", clubs_fixture)
         club = clubs_fixture[0]
@@ -85,7 +82,7 @@ class TestBookPlaces:
         clubs_fixture,
         competitions_fixture,
     ):
-        """ Teste le message de confirmation de l'achat ainsi que la mise à jour des points de club"""
+        """Teste le message de confirmation de l'achat ainsi que la mise à jour des points de club"""
         mocker.patch.object(server, "competitions", competitions_fixture)
         mocker.patch.object(server, "clubs", clubs_fixture)
         competition = competitions_fixture[0]
@@ -99,7 +96,7 @@ class TestBookPlaces:
         response = client.post("/purchasePlaces", data=data)
         data = response.data.decode()
         expected_message = "Great-booking complete!"
-        expected_points_updates = int(club['points'])-placesRequired
+        expected_points_updates = int(club["points"]) - placesRequired
         assert expected_message in data
         assert str(expected_points_updates) in data
 
@@ -141,4 +138,3 @@ class TestBookPlaces:
         data = response.data.decode()
         expected = "You cannot book more than 12 places per competition."
         assert expected in data
-
