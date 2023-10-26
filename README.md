@@ -1,51 +1,102 @@
-# gudlift-registration
+# GÜDLFT : Application de réservation régionale
 
-1. Why
+***
+GÜDLFT propose une plateforme numérique pour coordonner les compétitions de force.
+Ce projet est une démonstration de faisabilité (proof of concept) d'une version légère de la plateforme pour les organisateurs de compétitions locales et régionales.
+
+## Fonctionnalités de l'application
+
+L'application permettra aux clubs d'inscrire des athlètes aux compétitions organisées au sein de la division. Chaque
+compétition aura un nombre limité d'inscriptions, et chaque club ne peut inscrire qu'un maximum de 12 athlètes.
+ 
+## Configuration actuelle
+
+L’application est alimentée par [des fichiers JSON](https://www.tutorialspoint.com/json/json_quick_guide.htm). Il s’agit de contourner le fait d’avoir une base de données jusqu’à ce que nous en ayons vraiment besoin. Les principaux sont les suivants : 
+* competitions.json - liste des compétitions
+* clubs.json - liste des clubs avec des informations pertinentes. Vous pouvez regarder ici pour voir quelles adresses e-mail l’application acceptera pour la connexion.
+
+## Prérequis
+
+L'application aura besoin de Python, Git et Pipenv pour fonctionner. Si besoin, vous pouvez les installer en suivant les instructions sur [cette page](docs/installation_python-git-pipenv.md).
+
+## Installation
+
+Cette application exécutable localement peut être installée en suivant les étapes décrites ci-dessous.
+
+1. Ouvrez le terminal et tapez :
+
+```
+git clone https://github.com/Nunespace/App-GUDLFT.git
+```
+
+Vous pouvez également télécharger le dossier en temps qu'archive zip : [Projet_App_GUDLFT .zip](https://github.com/Nunespace/App-GUDLFT/archive/refs/heads/master.zip)
+
+2. Placez-vous dans le répertoire App-GUDLFT :
+```
+CD App-GUDLFT
+ou
+CD chemin .../App-GUDLFT
+```
+
+3. Installez les dépendances du projet :
+```
+pipenv install
+```
+
+4. Démarrer le serveur avec : 
+```
+pipenv run python server.py
+```
+5. Ouvrez votre navigateur et entrez l’URL suivante : [http://127.0.0.1:5000/](http://127.0.0.1:5000/) comme indiqué sur le terminal pour démarrer l'application.
+
+Pour les lancements ultérieurs du serveur, il suffit d'exécuter les étape 4 et 5 à partir du répertoire racine du projet.
+
+## Tests
+
+Les tests de ce projet ont été réalisés avec le framework pytest et son plugin pytest-flask.
+
+### Lancement des tests
+Les tests sont executables avec la commande ```pipenv run pytest```
+
+Il est possible de lancer qu'un seul test. Par exemple : ```pipenv run pytest tests/unit/test_app.py::TestBookPlaces::test_get_book_page```
+
+### Rapport HTML
+
+Un rapport html des tests peut être obtenu avec la commande : ```pipenv run pytest --html=report.html --self-contained-html```
+
+Il sera ensuite disponible à cette adresse : http://127.0.0.1:5500/report.html
 
 
-    This is a proof of concept (POC) project to show a light-weight version of our competition booking platform. The aim is the keep things as light as possible, and use feedback from the users to iterate.
+### Couverture de test
 
-2. Getting Started
-
-    This project uses the following technologies:
-
-    * Python v3.x+
-
-    * [Flask](https://flask.palletsprojects.com/en/1.1.x/)
-
-        Whereas Django does a lot of things for us out of the box, Flask allows us to add only what we need. 
-     
-
-    * [Virtual environment](https://virtualenv.pypa.io/en/stable/installation.html)
-
-        This ensures you'll be able to install the correct packages without interfering with Python on your machine.
-
-        Before you begin, please ensure you have this installed globally. 
+Ce projet contient la librairie Python Coverage.py qui fournit un rapport qui nous donne le pourcentage de couverture de ligne par fichier source de couverture. Ce rapport peut être obtenu avec cette commande : ```pipenv run pytest --cov=.```
+Un rapport HTML, plus détaillé, peut aussi être généré en tapant : ```pipenv run pytest --cov=. --cov-report html```
+Ce dernier est ainsi consultable à cette adresse http://127.0.0.1:5500/htmlcov/index.html
 
 
-3. Installation
+### Performances
 
-    - After cloning, change into the directory and type <code>virtualenv .</code>. This will then set up a a virtual python environment within that directory.
+Le framework Locust a été utilisé pour réaliser les tests de performance de l'application mesurant les temps de réponse des différentes fonctionnalités (temps de chargement et mises à jour).
 
-    - Next, type <code>source bin/activate</code>. You should see that your command prompt has changed to the name of the folder. This means that you can install packages in here without affecting affecting files outside. To deactivate, type <code>deactivate</code>
+Pour exécuter ces tests :
 
-    - Rather than hunting around for the packages you need, you can install in one step. Type <code>pip install -r requirements.txt</code>. This will install all the packages listed in the respective file. If you install a package, make sure others know by updating the requirements.txt file. An easy way to do this is <code>pip freeze > requirements.txt</code>
+1. Ouvrir un terminal pointant sur le répertoire contenant le fichierlocustfile.py en tapant, à partir de la racine du projet : ```cd tests\performance_tests```
 
-    - Flask requires that you set an environmental variable to the python file. However you do that, you'll want to set the file to be <code>server.py</code>. Check [here](https://flask.palletsprojects.com/en/1.1.x/quickstart/#a-minimal-application) for more details
+2. Taper ```pipenv run locust```
 
-    - You should now be ready to test the application. In the directory, type either <code>flask run</code> or <code>python -m flask run</code>. The app should respond with an address you should be able to go to using your browser.
+3. Ouvrez votre navigateur et taper l'adresse : [http://localhost:8089/](http://localhost:8089/)
 
-4. Current Setup
+4. Sur cette page, vous devez préciser :
 
-    The app is powered by [JSON files](https://www.tutorialspoint.com/json/json_quick_guide.htm). This is to get around having a DB until we actually need one. The main ones are:
-     
-    * competitions.json - list of competitions
-    * clubs.json - list of clubs with relevant information. You can look here to see what email addresses the app will accept for login.
+    - Number of total users to simulate : le nombre total d'utilisateurs à simuler (fixé pour ce projet à six par défaut).
 
-5. Testing
+    - Spawn rate : le taux de création d'utilisateurs, il correspond au nombre d’utilisateurs créés par seconde jusqu’à atteindre le nombre total d’utilisateurs. 
 
-    You are free to use whatever testing framework you like-the main thing is that you can show what tests you are using.
+    - Host : l’adresse de l'application : http://127.0.0.1:5000 (localhost).
 
-    We also like to show how well we're testing, so there's a module called 
-    [coverage](https://coverage.readthedocs.io/en/coverage-5.1/) you should add to your project.
+> [!IMPORTANT]
+> Lancer l'application au préalable, sinon, toutes les requêtes vont échouer.
+
+
+
 
