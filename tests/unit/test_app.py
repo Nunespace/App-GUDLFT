@@ -1,7 +1,5 @@
-import pytest
 import server
 from server import is_past_competition
-
 
 
 class TestHomePage:
@@ -16,8 +14,6 @@ class TestHomePage:
         response = client.get("/")
         # Permet de décoder la data dans la requête
         data = response.data.decode()
-        print("clubs ds tests unit :", clubs_fixture)
-        print("dataaa", data)
         for club in clubs_fixture:
             assert club["name"] in data
             assert club["points"] in data
@@ -35,6 +31,7 @@ class TestHomePage:
 
 
 class TestSummary:
+
     def test_get_summary_with_buttun_book(
         self, mocker, client, clubs_fixture, competitions_fixture
     ):
@@ -50,7 +47,9 @@ class TestSummary:
     def test_get_summary_without_buttun_book(
         self, mocker, client, clubs_fixture, competitions_fixture
     ):
-        """Vérifie le code réponse HTTP 200 et l'absence du bouton book en cas de compétitions passées ou de places à 0"""
+        """
+        Vérifie le code réponse HTTP 200 et l'absence du bouton book en cas de compétitions passées ou de places à 0
+        """
         mocker.patch.object(server, "competitions", competitions_fixture[1:3])
         mocker.patch.object(server, "clubs", clubs_fixture)
         email = clubs_fixture[0]["email"]
@@ -60,6 +59,7 @@ class TestSummary:
         assert "book" not in data
 
     def test_past_competition(self, competitions_fixture):
+        """teste la fonction qui détermine si la compétiton est à venir"""
         competitions_fixture[1]["date"] = "2024-03-27 10:00:00"
         date_str = competitions_fixture[1]["date"]
         expected = True
@@ -69,6 +69,7 @@ class TestSummary:
 class TestBookPlaces:
 
     def test_get_book_page(self, mocker, client, competitions_fixture, clubs_fixture):
+        """ Quand l'utilisateur clique sur le boton book, alors la page de réservations doit s'ouvrir"""
         mocker.patch.object(server, "competitions", competitions_fixture)
         mocker.patch.object(server, "clubs", clubs_fixture)
         club = clubs_fixture[0]
@@ -128,8 +129,6 @@ class TestBookPlaces:
         mocker.patch.object(server, "competitions", competitions_fixture)
         mocker.patch.object(server, "clubs", clubs_fixture)
         club = clubs_fixture[0]
-        # club_name = club['name']
-        # mocker.patch.object(server.purchasePlaces, f'competition[{club_name}]', 12)
         competition = competitions_fixture[0]
         club = clubs_fixture[0]
         placesRequired = 13
@@ -142,3 +141,4 @@ class TestBookPlaces:
         data = response.data.decode()
         expected = "You cannot book more than 12 places per competition."
         assert expected in data
+
