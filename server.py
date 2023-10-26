@@ -77,7 +77,6 @@ def purchasePlaces():
     club["points"] = int(club["points"])
     # ajout dans le dictionnaire competition de la clé "club_name" correspondant au nb de places déjà réservées
     competition.setdefault(club_name, 0)
-    print("places réservées avant:", competition[club_name])
     placesRequired = int(request.form["places"])
     # ajout d'un if/else et maj des points
     if placesRequired > 12 or competition[club_name] == 12:
@@ -90,11 +89,8 @@ def purchasePlaces():
         return render_template("booking.html", club=club, competition=competition)
     else:
         competition["numberOfPlaces"] -= placesRequired
-        print("clubs ds server.py :", clubs)
         club["points"] -= placesRequired
         competition[club_name] += placesRequired
-        print("places réservées après :", competition[club_name])
-        print("clubs ds server.py2 :", clubs)
         flash("Great-booking complete!")
         return render_template("welcome.html", club=club, competitions=competitions)
 

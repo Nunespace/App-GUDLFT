@@ -5,7 +5,7 @@ name = "pypi"
 
 [packages]
 click = "==7.1.2"
-flask = "==1.1.2"
+flask = "*"
 itsdangerous = "==1.1.0"
 jinja2 = "==2.11.2"
 markupsafe = "==1.1.1"
@@ -14,6 +14,7 @@ locust = "*"
 coverage = "*"
 pytest-cov = "*"
 pytest-html = "*"
+pytest-flask = "*"
 
 [dev-packages]
 
