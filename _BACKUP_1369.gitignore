@@ -1,0 +1,18 @@
+<<<<<<< HEAD
+.vscode/
+__pycache__
+.coverage
+.coveragerc
+htmlcov
+report.html
+
+
+
+=======
+bin
+include
+lib
+.Python
+.vscode
+__pycache__
+>>>>>>> QA

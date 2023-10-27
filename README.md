@@ -33,27 +33,27 @@ Vous pouvez également télécharger le dossier en temps qu'archive zip : [Proje
 
 2. Placez-vous dans le répertoire App-GUDLFT :
 ```
-CD App-GUDLFT
-ou
-CD chemin .../App-GUDLFT
+cd App-GUDLFT
 ```
 
 3. Installez les dépendances du projet :
 ```
 pipenv install
 ```
-
+ 
 4. Démarrer le serveur avec : 
 ```
 pipenv run python server.py
 ```
 5. Ouvrez votre navigateur et entrez l’URL suivante : [http://127.0.0.1:5000/](http://127.0.0.1:5000/) comme indiqué sur le terminal pour démarrer l'application.
 
-Pour les lancements ultérieurs du serveur, il suffit d'exécuter les étape 4 et 5 à partir du répertoire racine du projet.
+6. Pour quitter le serveur, appuyez sur ` CTRL+C `
+
+Pour les lancements ultérieurs du serveur, il suffit d'exécuter les étape 4 et 6 à partir du répertoire racine du projet.
 
 ## Tests
 
-Les tests de ce projet ont été réalisés avec le framework pytest et son plugin pytest-flask.
+Les tests de ce projet ont été écrits avec le framework pytest et son plugin pytest-flask.
 
 ### Lancement des tests
 Les tests sont executables avec la commande : 
