@@ -47,7 +47,7 @@ def showSummary():
         return render_template("index.html", error=error, clubs=clubs)
     else:
         club = [club for club in clubs if club["email"] == request.form["email"]][0]
-        # ajout dans le doctionnaire competition de la clé club_name correspondant au nb de places déjà réservées
+        # ajout dans le dictionnaire competition de la clé club_name correspondant au nb de places déjà réservées
         for competition in competitions:
             competition.setdefault("past", is_past_competition(competition["date"]))
         return render_template("welcome.html", club=club, competitions=competitions)
