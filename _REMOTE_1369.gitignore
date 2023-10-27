@@ -1,6 +1,0 @@
-bin
-include
-lib
-.Python
-.vscode
-__pycache__
