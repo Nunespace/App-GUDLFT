@@ -1,6 +1,6 @@
-bin
-include
-lib
-.Python
-.vscode
+.vscode/
 __pycache__
+.coverage
+.coveragerc
+htmlcov
+report.html
