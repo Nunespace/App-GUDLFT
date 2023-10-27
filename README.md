@@ -73,7 +73,7 @@ Un rapport html des tests peut être obtenu avec la commande :
 pipenv run pytest --html=report.html --self-contained-html
 ```
 
-Il sera ensuite disponible à cette adresse : 127.0.0.1:5500/report.html
+qui crée un fichier *report.html* dans le répertoire du projet. Il suffit alors d'ouvrir ce fichier avec votre navigateur pour y accéder.
 
 
 ### Couverture de test
@@ -86,7 +86,7 @@ Un rapport HTML, plus détaillé, peut aussi être généré en tapant :
 ```
 pipenv run pytest --cov=. --cov-report html
 ```
-Ce dernier est ainsi consultable à cette adresse http://127.0.0.1:5500/htmlcov/index.html
+Nn nouveau dossier *htmlcov* est ainsi créé à l'endroit où vous avez lancé la commande. Avec votre navigateur, ouvrez le fichier *index.html*  qui contient un résumé du rapport de couverture. À partir de cette page, vous pourrez naviguer à travers les différents fichiers afin d’avoir le détail sur la couverture.
 
 
 ### Performances
@@ -95,7 +95,7 @@ Le framework Locust a été utilisé pour réaliser les tests de performance de 
 
 Pour exécuter ces tests :
 
-1. Ouvrir un terminal pointant sur le répertoire contenant le fichierlocustfile.py en tapant, à partir de la racine du projet : 
+1. Ouvrir un nouveau terminal pointant sur le répertoire contenant le fichierlocustfile.py en tapant, à partir de la racine du projet : 
 ```
 cd tests\performance_tests
 ```
@@ -116,7 +116,7 @@ pipenv run locust
     - Host : l’adresse de l'application : http://127.0.0.1:5000 (localhost).
 
 > [!IMPORTANT]
-> Lancer l'application au préalable, sinon, toutes les requêtes vont échouer.
+> Lancer l'application au préalable dans un autre terminal, sinon, toutes les requêtes vont échouer.
 
 
 
