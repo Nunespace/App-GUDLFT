@@ -1,12 +1,5 @@
-bin
-include
-lib
-.Python
-tests/
-.envrc
 .vscode/
 __pycache__
-tests/
 .coverage
 .coveragerc
 htmlcov
