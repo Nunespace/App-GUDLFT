@@ -13,6 +13,9 @@ werkzeug = "==1.0.1"
 locust = "*"
 coverage = "*"
 pytest-cov = "*"
+pytest-mock = "*"
+pytest-flask = "*"
+pytest-html = "*"
 
 [dev-packages]
 

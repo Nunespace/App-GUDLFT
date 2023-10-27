@@ -73,7 +73,7 @@ Un rapport html des tests peut être obtenu avec la commande :
 pipenv run pytest --html=report.html --self-contained-html
 ```
 
-Il sera ensuite disponible à cette adresse : http://127.0.0.1:5500/report.html
+Il sera ensuite disponible à cette adresse : 127.0.0.1:5500/report.html
 
 
 ### Couverture de test
