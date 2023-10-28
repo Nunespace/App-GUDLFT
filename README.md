@@ -21,7 +21,9 @@ L'application aura besoin de Python, Git et Pipenv pour fonctionner. Si besoin, 
 
 ## Installation
 
-Cette application exécutable localement peut être installée en suivant les étapes décrites ci-dessous.
+Cette application exécutable localement peut être installée à l'aide de pipenv en suivant les étapes décrites ci-dessous.
+> [!NOTE]  
+> Si vous souhaitez utiliser pip à la place de pipenv, vous diposez du fichier *requirements.txt* pour installer toutes les dépendances du projet. Il vous faudra ensuite activer vous-même l'environnement virtuel (dans ce cas enlever "pipenv" ou "pipenv run" de toutes les commandes). 
 
 1. Ouvrez le terminal et tapez :
 

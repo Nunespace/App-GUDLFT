@@ -1,5 +1,5 @@
 import server
-from server import is_past_competition
+from server import is_not_past_competition
 from tests import conftest
 
 
@@ -62,7 +62,7 @@ class TestSummary:
         competitions_fixture[1]["date"] = "2024-03-27 10:00:00"
         date_str = competitions_fixture[1]["date"]
         expected = True
-        assert is_past_competition(date_str) == expected
+        assert is_not_past_competition(date_str) == expected
 
 
 class TestBookPlaces:
@@ -138,4 +138,23 @@ class TestBookPlaces:
         response = client.post("/purchasePlaces", data=data)
         data = response.data.decode()
         expected = "You cannot book more than 12 places per competition."
+        assert expected in data
+
+    def test_book_more_past_competition(
+        self, mocker, client, clubs_fixture, competitions_fixture
+    ):
+        mocker.patch.object(server, "competitions", competitions_fixture)
+        mocker.patch.object(server, "clubs", clubs_fixture)
+        club = clubs_fixture[0]
+        competition = competitions_fixture[1]
+        club = clubs_fixture[0]
+        placesRequired = 3
+        data = {
+            "club": club["name"],
+            "competition": competition["name"],
+            "places": placesRequired,
+        }
+        response = client.post("/purchasePlaces", data=data)
+        data = response.data.decode()
+        expected = "This competition is past."
         assert expected in data
