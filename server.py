@@ -47,7 +47,7 @@ def showSummary():
         return render_template("index.html", error=error, clubs=clubs)
     else:
         club = [club for club in clubs if club["email"] == request.form["email"]][0]
-        # ajout dans le dictionnaire competition de la clé club_name correspondant au nb de places déjà réservées
+        # ajout dans le dictionnaire competition de la clé "past" pour vérifier si la compétition est déjà passée
         for competition in competitions:
             competition.setdefault("past", is_not_past_competition(competition["date"]))
         return render_template("welcome.html", club=club, competitions=competitions)
@@ -78,10 +78,10 @@ def purchasePlaces():
     # ajout dans le dictionnaire competition de la clé "club_name" correspondant au nb de places déjà réservées
     competition.setdefault(club_name, 0)
     placesRequired = int(request.form["places"])
+    # ajout d'un if/else et maj des points
     if is_not_past_competition(competition["date"]) == False:
         flash("This competition is past.")
         return render_template("booking.html", club=club, competition=competition)
-    # ajout d'un if/else et maj des points
     if placesRequired > 12 or competition[club_name] == 12:
         flash("You cannot book more than 12 places per competition.")
         return render_template("booking.html", club=club, competition=competition)
